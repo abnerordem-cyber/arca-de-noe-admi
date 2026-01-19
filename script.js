@@ -118,6 +118,7 @@ function showPage(pageName) {
             'dashboard': 'Dashboard',
             'cadastro': 'Cadastrar Aluno',
             'alunos': 'Listar Alunos',
+            'pagamento-mes': 'Pagamento por Mês',
             'relatorio': 'Relatório'
         };
         titulo.textContent = titulos[pageName] || pageName;
@@ -127,6 +128,8 @@ function showPage(pageName) {
             atualizarDashboard();
         } else if (pageName === 'alunos') {
             aplicarFiltros();
+        } else if (pageName === 'pagamento-mes') {
+            preencherPagamentoMes(alunos);
         } else if (pageName === 'relatorio') {
             atualizarRelatorio();
         }
@@ -722,6 +725,67 @@ function filtrarPorTurma(turma) {
     showPage('alunos');
     document.getElementById('filtro-turma').value = turma;
     aplicarFiltros();
+}
+
+// ===== PAGAMENTO POR MÊS =====
+function atualizarPagamentoMes() {
+    const buscaAluno = document.getElementById('busca-aluno-mes').value.toLowerCase();
+    
+    const alunosFiltrados = buscaAluno 
+        ? alunos.filter(a => a.nomeAluno.toLowerCase().includes(buscaAluno))
+        : alunos;
+    
+    preencherPagamentoMes(alunosFiltrados);
+}
+
+function limparBuscaMes() {
+    document.getElementById('busca-aluno-mes').value = '';
+    preencherPagamentoMes(alunos);
+}
+
+function preencherPagamentoMes(alunosFiltrados) {
+    const container = document.getElementById('visualizacao-pagamento-mes');
+    if (!container) return;
+
+    const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 
+                   'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+    
+    if (alunosFiltrados.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: #999;">Nenhum aluno encontrado</p>';
+        return;
+    }
+
+    container.innerHTML = alunosFiltrados.map(aluno => {
+        const botoesGrade = meses.map((mes, index) => {
+            const mesPago = aluno.mesPagamento === (index + 1) && aluno.pagamento === 'Pago';
+            const mesBotao = mesPago ? 'botao-mes-pago' : 'botao-mes-nao-pago';
+            
+            return `<button type="button" class="botao-mes ${mesBotao}" 
+                        style="cursor: default;" title="${mesPago ? 'Pago' : 'Não pago'}">
+                        ${mes.substring(0, 3)}</button>`;
+        }).join('');
+
+        const statusGeral = aluno.pagamento === 'Pago' ? 'Pago ✓' : 'Não pago ✗';
+        const corStatus = aluno.pagamento === 'Pago' ? '#4CAF50' : '#FF6B35';
+
+        return `
+            <div class="card-pagamento-mes">
+                <div class="card-header-mes">
+                    <div>
+                        <h4>${aluno.nomeAluno}</h4>
+                        <p><strong>Mãe:</strong> ${aluno.nomeMae}</p>
+                        <p><strong>Turma:</strong> ${aluno.turma}</p>
+                    </div>
+                    <div class="status-badge" style="background-color: ${corStatus}; color: white; padding: 10px 15px; border-radius: 5px;">
+                        ${statusGeral}
+                    </div>
+                </div>
+                <div class="grade-meses">
+                    ${botoesGrade}
+                </div>
+            </div>
+        `;
+    }).join('');
 }
 
 // ===== RELATÓRIO =====

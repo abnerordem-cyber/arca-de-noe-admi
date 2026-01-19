@@ -31,6 +31,7 @@
             <ul class="menu">
                 <li><a href="#" onclick="showPage('dashboard')" class="menu-item active">Dashboard</a></li>
                 <li><a href="#" onclick="showPage('alunos')" class="menu-item">Alunos</a></li>
+                <li><a href="#" onclick="showPage('pagamento-mes')" class="menu-item">Pagamento/Mês</a></li>
                 <li><a href="#" onclick="showPage('relatorio')" class="menu-item">Relatório</a></li>
             </ul>
         </nav>
@@ -350,6 +351,30 @@
                         <div id="visualizacao-pagamento" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
                             <!-- Preenchido dinamicamente -->
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pagamento por Mês Page -->
+            <section id="pagamento-mes" class="page">
+                <div class="pagamento-container">
+                    <h2 style="color: var(--cor-secundaria); margin-bottom: 30px;">Pagamento por Mês</h2>
+                    
+                    <!-- Filtros -->
+                    <div class="filtros-pagamento" style="margin-bottom: 30px;">
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                            <label>
+                                <input type="text" id="busca-aluno-mes" placeholder="Buscar aluno..." 
+                                    style="padding: 10px; border: 1px solid #ddd; border-radius: 5px; width: 200px;">
+                            </label>
+                            <button class="btn btn-primary" onclick="atualizarPagamentoMes()">Buscar</button>
+                            <button class="btn btn-secondary" onclick="limparBuscaMes()">Limpar</button>
+                        </div>
+                    </div>
+
+                    <!-- Visualização de Pagamento por Mês -->
+                    <div id="visualizacao-pagamento-mes" style="display: grid; gap: 20px;">
+                        <!-- Preenchido dinamicamente -->
                     </div>
                 </div>
             </section>
