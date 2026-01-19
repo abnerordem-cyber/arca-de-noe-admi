@@ -150,7 +150,6 @@ async function adicionarAluno(event) {
 
     const ano = document.getElementById('ano').value;
     const periodo = document.getElementById('periodo').value;
-    const turno = document.getElementById('turno').value;
     const nomeAluno = document.getElementById('nome-aluno').value;
     const dataNasc = document.getElementById('data-nasc').value;
     const idade = document.getElementById('idade').value;
@@ -162,29 +161,24 @@ async function adicionarAluno(event) {
     const cidade = document.getElementById('cidade').value;
     const cep = document.getElementById('cep').value;
     const telefone = document.getElementById('telefone').value;
-    const celular = document.getElementById('celular').value;
     const email = document.getElementById('email').value;
-    const nomeResponsavel = document.getElementById('nome-responsavel').value;
     const nomePai = document.getElementById('nome-pai').value;
     const nomeMae = document.getElementById('nome-mae').value;
     const cpf = document.getElementById('cpf').value;
     const rg = document.getElementById('rg').value;
     const turma = document.getElementById('turma').value;
     const professor = document.getElementById('professor').value;
-    const profissao = document.getElementById('profissao').value;
-    const estadoCivil = document.getElementById('estado-civil').value;
     const mesPagamento = document.getElementById('mes-pagamento').value;
     const pagamento = document.getElementById('pagamento').value;
 
-    if (!nomeAluno || !nomeResponsavel || !turma || !pagamento) {
-        alert('Por favor, preencha os campos obrigatórios (Nome, Responsável, Turma e Pagamento)!');
+    if (!nomeAluno || !nomeMae || !turma || !pagamento) {
+        alert('Por favor, preencha os campos obrigatórios (Nome, Mãe, Turma e Pagamento)!');
         return;
     }
 
     const novoAluno = {
         ano,
         periodo,
-        turno,
         nomeAluno,
         dataNasc,
         idade,
@@ -196,17 +190,13 @@ async function adicionarAluno(event) {
         cidade,
         cep,
         telefone,
-        celular,
         email,
-        nomeResponsavel,
         nomePai,
         nomeMae,
         cpf,
         rg,
         turma,
         professor,
-        profissao,
-        estadoCivil,
         mesPagamento,
         pagamento
     };
@@ -230,7 +220,7 @@ function abrirModalEdicao(id) {
     alunoEmEdicao = id;
     document.getElementById('editar-id').value = id;
     document.getElementById('editar-nome-aluno').value = aluno.nomeAluno;
-    document.getElementById('editar-nome-responsavel').value = aluno.nomeResponsavel;
+    document.getElementById('editar-nome-mae').value = aluno.nomeMae;
     document.getElementById('editar-telefone').value = aluno.telefone;
     document.getElementById('editar-email').value = aluno.email;
     document.getElementById('editar-turma').value = aluno.turma;
@@ -253,7 +243,7 @@ function salvarEdicao(event) {
     
     const alunoAtualizado = {
         nomeAluno: document.getElementById('editar-nome-aluno').value,
-        nomeResponsavel: document.getElementById('editar-nome-responsavel').value,
+        nomeMae: document.getElementById('editar-nome-mae').value,
         telefone: document.getElementById('editar-telefone').value,
         email: document.getElementById('editar-email').value,
         turma: document.getElementById('editar-turma').value,
@@ -371,7 +361,7 @@ function preencherTabela(alunosFiltrados) {
     tabelaBody.innerHTML = alunosFiltrados.map(aluno => `
         <tr>
             <td><strong>${aluno.nomeAluno}</strong></td>
-            <td>${aluno.nomeResponsavel}</td>
+            <td>${aluno.nomeMae}</td>
             <td>${aluno.telefone}</td>
             <td>${aluno.email}</td>
             <td>${aluno.turma}</td>
@@ -397,8 +387,8 @@ function preencherTabela(alunosFiltrados) {
         <div class="aluno-card">
             <div class="aluno-card-nome">${aluno.nomeAluno}</div>
             <div class="aluno-card-info">
-                <span class="aluno-card-label">Responsável:</span>
-                <span class="aluno-card-valor">${aluno.nomeResponsavel}</span>
+                <span class="aluno-card-label">Mãe:</span>
+                <span class="aluno-card-valor">${aluno.nomeMae}</span>
             </div>
             <div class="aluno-card-info">
                 <span class="aluno-card-label">Telefone:</span>
@@ -424,6 +414,47 @@ function preencherTabela(alunosFiltrados) {
             </div>
         </div>
     `).join('');
+
+    // Preencher visualização de pagamento por mês
+    gerarVisualizacaoPagamentoMes();
+}
+
+// ===== VISUALIZAÇÃO PAGAMENTO POR MÊS =====
+function gerarVisualizacaoPagamentoMes() {
+    const container = document.getElementById('visualizacao-pagamento');
+    if (!container) return;
+
+    const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+    
+    container.innerHTML = alunos.map(aluno => {
+        let status = '';
+        for (let mes = 1; mes <= 12; mes++) {
+            const pagouNeste = aluno.mesPagamento === mes && aluno.pagamento === 'Pago';
+            const naoPageuNeste = aluno.mesPagamento === mes && aluno.pagamento !== 'Pago';
+            
+            if (pagouNeste) {
+                status += `<span style="display: inline-block; margin: 2px; padding: 3px 6px; background: #4CAF50; color: white; border-radius: 3px; font-size: 11px;">✓ ${meses[mes-1].substring(0,3)}</span>`;
+            } else if (naoPageuNeste) {
+                status += `<span style="display: inline-block; margin: 2px; padding: 3px 6px; background: #FF6B35; color: white; border-radius: 3px; font-size: 11px;">✗ ${meses[mes-1].substring(0,3)}</span>`;
+            }
+        }
+        
+        if (!status) {
+            status = '<span style="color: #999;">Sem informações de pagamento</span>';
+        }
+
+        return `
+            <div style="padding: 15px; background: white; border-radius: 8px; border-left: 4px solid ${aluno.pagamento === 'Pago' ? '#4CAF50' : '#FF6B35'};">
+                <div style="font-weight: bold; margin-bottom: 10px;">${aluno.nomeAluno}</div>
+                <div style="font-size: 13px;">
+                    <strong>Turma:</strong> ${aluno.turma} | <strong>Mãe:</strong> ${aluno.nomeMae}
+                </div>
+                <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 5px;">
+                    ${status}
+                </div>
+            </div>
+        `;
+    }).join('');
 }
 
 // ===== DASHBOARD =====
@@ -461,7 +492,6 @@ function gerarGraficos() {
     gerarGraficoTurmas();
     gerarGraficoPagamento();
     gerarGraficoAnos();
-    gerarGraficoEstadoCivil();
     gerarGraficoPeriodo();
     gerarGraficoPagamentoMes();
 }
@@ -595,45 +625,6 @@ function gerarGraficoAnos() {
     });
 }
 
-function gerarGraficoEstadoCivil() {
-    const estadosCivis = [...new Set(alunos.map(a => a.estadoCivil))].filter(a => a);
-    const dadosEstados = estadosCivis.map(estado => alunos.filter(a => a.estadoCivil === estado).length);
-    
-    const ctx = document.getElementById('graficoEstadoCivil');
-    if (!ctx) return;
-    
-    if (window.graficoEstadoCivilInstance) {
-        window.graficoEstadoCivilInstance.destroy();
-    }
-    
-    window.graficoEstadoCivilInstance = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: estadosCivis,
-            datasets: [{
-                data: dadosEstados,
-                backgroundColor: [
-                    '#FF6B35',
-                    '#004E89',
-                    '#FF9D6F',
-                    '#00365D'
-                ],
-                borderColor: '#ffffff',
-                borderWidth: 2
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'bottom'
-                }
-            }
-        }
-    });
-}
 
 function gerarGraficoPeriodo() {
     const periodos = [...new Set(alunos.map(a => a.periodo))].filter(a => a);
@@ -801,7 +792,7 @@ function exportarDados() {
     texto += '=== DETALHES DOS ALUNOS ===\n\n';
     alunos.forEach(aluno => {
         texto += `Nome: ${aluno.nomeAluno}\n`;
-        texto += `Responsável: ${aluno.nomeResponsavel}\n`;
+        texto += `Mãe: ${aluno.nomeMae}\n`;
         texto += `Telefone: ${aluno.telefone}\n`;
         texto += `E-mail: ${aluno.email}\n`;
         texto += `Turma: ${aluno.turma}\n`;
@@ -839,14 +830,13 @@ function exportarParaExcel() {
         return;
     }
 
-    let html = '<table border="1"><tr><th>Nome</th><th>Responsável</th><th>Telefone</th><th>Celular</th><th>Email</th><th>Turma</th><th>Ano</th><th>Período</th><th>Pagamento</th><th>Mês Pagamento</th><th>Professor</th><th>CPF</th><th>RG</th></tr>';
+    let html = '<table border="1"><tr><th>Nome</th><th>Mãe</th><th>Telefone</th><th>Email</th><th>Turma</th><th>Ano</th><th>Período</th><th>Pagamento</th><th>Mês Pagamento</th><th>Professor</th><th>CPF</th><th>RG</th></tr>';
     
     alunos.forEach(aluno => {
         html += `<tr>
             <td>${aluno.nomeAluno}</td>
-            <td>${aluno.nomeResponsavel}</td>
+            <td>${aluno.nomeMae}</td>
             <td>${aluno.telefone}</td>
-            <td>${aluno.celular || ''}</td>
             <td>${aluno.email}</td>
             <td>${aluno.turma}</td>
             <td>${aluno.ano || ''}</td>
@@ -878,10 +868,10 @@ function exportarParaCSV() {
         return;
     }
 
-    let csv = 'Nome,Responsável,Telefone,Celular,Email,Turma,Ano,Período,Turno,Data Nascimento,Idade,Naturalidade,Nacionalidade,Endereço,Bairro,Cidade,CEP,Nome Pai,Nome Mãe,Pagamento,Mês Pagamento,Professor,CPF,RG,Profissão,Estado Civil\n';
+    let csv = 'Nome,Mãe,Telefone,Email,Turma,Ano,Período,Data Nascimento,Idade,Naturalidade,Nacionalidade,Endereço,Bairro,Cidade,CEP,Nome Pai,Pagamento,Mês Pagamento,Professor,CPF,RG\n';
     
     alunos.forEach(aluno => {
-        csv += `"${aluno.nomeAluno}","${aluno.nomeResponsavel}","${aluno.telefone}","${aluno.celular || ''}","${aluno.email}","${aluno.turma}","${aluno.ano || ''}","${aluno.periodo || ''}","${aluno.turno || ''}","${aluno.dataNasc || ''}","${aluno.idade || ''}","${aluno.naturalidade || ''}","${aluno.nacionalidade || ''}","${aluno.endereco || ''}","${aluno.bairro || ''}","${aluno.cidade || ''}","${aluno.cep || ''}","${aluno.nomePai || ''}","${aluno.nomeMae || ''}","${aluno.pagamento}","${aluno.mesPagamento || ''}","${aluno.professor || ''}","${aluno.cpf || ''}","${aluno.rg || ''}","${aluno.profissao || ''}","${aluno.estadoCivil || ''}"\n`;
+        csv += `"${aluno.nomeAluno}","${aluno.nomeMae}","${aluno.telefone}","${aluno.email}","${aluno.turma}","${aluno.ano || ''}","${aluno.periodo || ''}","${aluno.dataNasc || ''}","${aluno.idade || ''}","${aluno.naturalidade || ''}","${aluno.nacionalidade || ''}","${aluno.endereco || ''}","${aluno.bairro || ''}","${aluno.cidade || ''}","${aluno.cep || ''}","${aluno.nomePai || ''}","${aluno.pagamento}","${aluno.mesPagamento || ''}","${aluno.professor || ''}","${aluno.cpf || ''}","${aluno.rg || ''}"\n`;
     });
 
     const elemento = document.createElement('a');

@@ -440,6 +440,34 @@ body {
     box-shadow: 0 0 5px rgba(255, 107, 53, 0.3);
 }
 
+.form-section {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.form-section h3 {
+    color: var(--cor-secundaria);
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.lista-section {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.lista-section h3 {
+    color: var(--cor-secundaria);
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
 .btn {
     padding: 12px 25px;
     border: none;
@@ -735,6 +763,18 @@ body {
 .modal-content h3 {
     color: var(--cor-secundaria);
     margin-bottom: 20px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: flex-end;
+}
+
+.modal-buttons .btn {
+    flex: 1;
+    margin: 0;
 }
 
 /* ===== RELATÓRIO ===== */

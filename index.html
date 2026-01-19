@@ -30,8 +30,7 @@
             </div>
             <ul class="menu">
                 <li><a href="#" onclick="showPage('dashboard')" class="menu-item active">Dashboard</a></li>
-                <li><a href="#" onclick="showPage('cadastro')" class="menu-item">Cadastrar Aluno</a></li>
-                <li><a href="#" onclick="showPage('alunos')" class="menu-item">Listar Alunos</a></li>
+                <li><a href="#" onclick="showPage('alunos')" class="menu-item">Alunos</a></li>
                 <li><a href="#" onclick="showPage('relatorio')" class="menu-item">Relatório</a></li>
             </ul>
         </nav>
@@ -91,20 +90,15 @@
                         <h3>Alunos por Ano</h3>
                         <canvas id="graficoAnos"></canvas>
                     </div>
-                    <div class="grafico-card">
-                        <h3>Alunos por Estado Civil</h3>
-                        <canvas id="graficoEstadoCivil"></canvas>
-                    </div>
                 </div>
             </section>
 
-            <!-- Cadastro Page -->
-            <section id="cadastro" class="page">
-                <div class="form-container">
-                    <h3>Cadastrar Novo Aluno</h3>
+            <!-- Alunos Page - Cadastro e Listagem -->
+            <section id="alunos" class="page">
+                <!-- Formulário de Cadastro -->
+                <div class="form-section">
+                    <h3>➕ Cadastrar Novo Aluno</h3>
                     <form id="form-aluno" onsubmit="adicionarAluno(event)">
-                        <!-- INFORMAÇÕES BÁSICAS -->
-                        <h4>Informações do Aluno</h4>
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="ano">Ano:</label>
@@ -159,7 +153,6 @@
                             </div>
                         </div>
 
-                        <!-- ENDEREÇO -->
                         <h4>Endereço</h4>
                         <div class="form-group">
                             <label for="endereco">Endereço:</label>
@@ -188,7 +181,6 @@
                             </div>
                         </div>
 
-                        <!-- CONTATO -->
                         <h4>Contato</h4>
                         <div class="form-row">
                             <div class="form-group">
@@ -201,7 +193,6 @@
                             </div>
                         </div>
 
-                        <!-- RESPONSÁVEIS -->
                         <h4>Responsáveis</h4>
                         <div class="form-row">
                             <div class="form-group">
@@ -214,7 +205,6 @@
                             </div>
                         </div>
 
-                        <!-- DOCUMENTAÇÃO -->
                         <h4>Documentação</h4>
                         <div class="form-row">
                             <div class="form-group">
@@ -227,14 +217,12 @@
                             </div>
                         </div>
 
-                        <!-- INFORMAÇÕES ESCOLARES -->
                         <h4>Informações Escolares</h4>
                         <div class="form-group">
                             <label for="professor">Professor:</label>
                             <input type="text" id="professor" placeholder="Nome do professor">
                         </div>
 
-                        <!-- PAGAMENTO -->
                         <h4>Pagamento</h4>
                         <div class="form-row">
                             <div class="form-group">
@@ -252,17 +240,19 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Salvar Aluno</button>
+                        <button type="submit" class="btn btn-primary">✓ Salvar Aluno</button>
                         <button type="reset" class="btn btn-secondary">Limpar Formulário</button>
                     </form>
                 </div>
-            </section>
 
-            <!-- Listar Alunos Page -->
-            <section id="alunos" class="page">
-                <div class="filtros-container">
-                    <h3>Filtros</h3>
-                    <div class="filtros">
+                <hr style="margin: 30px 0; border: 1px solid #ddd;">
+
+                <!-- Listagem de Alunos -->
+                <div class="lista-section">
+                    <h3>📋 Lista de Alunos</h3>
+                    <div class="filtros-container">
+                        <h4>Filtros</h4>
+                        <div class="filtros">
                         <div class="filtro-group">
                             <label for="filtro-pagamento">Pagamento:</label>
                             <select id="filtro-pagamento" onchange="aplicarFiltros()">
@@ -353,6 +343,15 @@
                     </div>
                     <p id="mensagem-vazia" style="text-align: center; color: #666; padding: 20px;">Nenhum aluno encontrado. Comece a adicionar alunos!</p>
                 </div>
+
+                    <!-- Visualização de Pagamento por Mês -->
+                    <div style="margin-top: 30px; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                        <h3>📅 Pagamento por Mês</h3>
+                        <div id="visualizacao-pagamento" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                            <!-- Preenchido dinamicamente -->
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <!-- Relatório Page -->
@@ -391,6 +390,9 @@
             </section>
         </div>
     </div>
+
+    <!-- Modal de Edição -->
+    <div id="modal-editar" class="modal">
         <div class="modal-content">
             <span class="close" onclick="fecharModal()">&times;</span>
             <h3>Editar Aluno</h3>
@@ -403,8 +405,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="editar-nome-responsavel">Nome do Responsável:</label>
-                    <input type="text" id="editar-nome-responsavel" required>
+                    <label for="editar-nome-mae">Nome da Mãe:</label>
+                    <input type="text" id="editar-nome-mae" required>
                 </div>
 
                 <div class="form-group">
@@ -436,8 +438,10 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Salvar Alterações</button>
-                <button type="button" class="btn btn-secondary" onclick="fecharModal()">Cancelar</button>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                    <button type="button" class="btn btn-secondary" onclick="fecharModal()">Cancelar</button>
+                </div>
             </form>
         </div>
     </div>
