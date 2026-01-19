@@ -876,6 +876,42 @@ body {
     background-color: #FFD6CB;
 }
 
+/* ===== GRID DE MESES MODAL ===== */
+.grid-meses-modal {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+.mes-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mes-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--cor-primaria);
+}
+
+.mes-checkbox label {
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--cor-texto);
+    user-select: none;
+}
+
+.mes-checkbox input[type="checkbox"]:checked + label {
+    color: var(--cor-primaria);
+    font-weight: 600;
+}
+
 /* ===== RELATÓRIO ===== */
 .relatorio-container {
     background: white;

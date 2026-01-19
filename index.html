@@ -471,6 +471,73 @@
         </div>
     </div>
 
+    <!-- Modal de Edição de Pagamentos Mensais -->
+    <div id="modal-pagamentos-mes" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <span class="close" onclick="fecharModalPagamentos()">&times;</span>
+            <h3>Editar Pagamentos - <span id="aluno-nome-modal"></span></h3>
+            <form id="form-pagamentos-mes" onsubmit="salvarPagamentosMes(event)">
+                <input type="hidden" id="id-aluno-pagamentos">
+                
+                <div class="grid-meses-modal">
+                    <div class="mes-checkbox">
+                        <input type="checkbox" id="mes-1" class="checkbox-mes" data-mes="1">
+                        <label for="mes-1">Janeiro</label>
+                    </div>
+                    <div class="mes-checkbox">
+                        <input type="checkbox" id="mes-2" class="checkbox-mes" data-mes="2">
+                        <label for="mes-2">Fevereiro</label>
+                    </div>
+                    <div class="mes-checkbox">
+                        <input type="checkbox" id="mes-3" class="checkbox-mes" data-mes="3">
+                        <label for="mes-3">Março</label>
+                    </div>
+                    <div class="mes-checkbox">
+                        <input type="checkbox" id="mes-4" class="checkbox-mes" data-mes="4">
+                        <label for="mes-4">Abril</label>
+                    </div>
+                    <div class="mes-checkbox">
+                        <input type="checkbox" id="mes-5" class="checkbox-mes" data-mes="5">
+                        <label for="mes-5">Maio</label>
+                    </div>
+                    <div class="mes-checkbox">
+                        <input type="checkbox" id="mes-6" class="checkbox-mes" data-mes="6">
+                        <label for="mes-6">Junho</label>
+                    </div>
+                    <div class="mes-checkbox">
+                        <input type="checkbox" id="mes-7" class="checkbox-mes" data-mes="7">
+                        <label for="mes-7">Julho</label>
+                    </div>
+                    <div class="mes-checkbox">
+                        <input type="checkbox" id="mes-8" class="checkbox-mes" data-mes="8">
+                        <label for="mes-8">Agosto</label>
+                    </div>
+                    <div class="mes-checkbox">
+                        <input type="checkbox" id="mes-9" class="checkbox-mes" data-mes="9">
+                        <label for="mes-9">Setembro</label>
+                    </div>
+                    <div class="mes-checkbox">
+                        <input type="checkbox" id="mes-10" class="checkbox-mes" data-mes="10">
+                        <label for="mes-10">Outubro</label>
+                    </div>
+                    <div class="mes-checkbox">
+                        <input type="checkbox" id="mes-11" class="checkbox-mes" data-mes="11">
+                        <label for="mes-11">Novembro</label>
+                    </div>
+                    <div class="mes-checkbox">
+                        <input type="checkbox" id="mes-12" class="checkbox-mes" data-mes="12">
+                        <label for="mes-12">Dezembro</label>
+                    </div>
+                </div>
+
+                <div class="modal-buttons" style="margin-top: 30px;">
+                    <button type="submit" class="btn btn-primary">Salvar Pagamentos</button>
+                    <button type="button" class="btn btn-secondary" onclick="fecharModalPagamentos()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>

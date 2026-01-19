@@ -776,8 +776,13 @@ function preencherPagamentoMes(alunosFiltrados) {
                         <p><strong>Mãe:</strong> ${aluno.nomeMae}</p>
                         <p><strong>Turma:</strong> ${aluno.turma}</p>
                     </div>
-                    <div class="status-badge" style="background-color: ${corStatus}; color: white; padding: 10px 15px; border-radius: 5px;">
-                        ${statusGeral}
+                    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 10px;">
+                        <div class="status-badge" style="background-color: ${corStatus}; color: white; padding: 10px 15px; border-radius: 5px;">
+                            ${statusGeral}
+                        </div>
+                        <button class="btn btn-primary" onclick="abrirModalPagamentosMes(${aluno.id}, '${aluno.nomeAluno}')">
+                            ✎ Editar
+                        </button>
                     </div>
                 </div>
                 <div class="grade-meses">
@@ -786,6 +791,70 @@ function preencherPagamentoMes(alunosFiltrados) {
             </div>
         `;
     }).join('');
+}
+
+function abrirModalPagamentosMes(id, nomeAluno) {
+    const aluno = alunos.find(a => a.id === id);
+    if (!aluno) return;
+
+    document.getElementById('id-aluno-pagamentos').value = id;
+    document.getElementById('aluno-nome-modal').textContent = nomeAluno;
+
+    // Limpar todos os checkboxes
+    document.querySelectorAll('.checkbox-mes').forEach(checkbox => {
+        checkbox.checked = false;
+    });
+
+    // Marcar o mês atual como pago se existe
+    if (aluno.mesPagamento && aluno.pagamento === 'Pago') {
+        const checkboxMes = document.getElementById(`mes-${aluno.mesPagamento}`);
+        if (checkboxMes) {
+            checkboxMes.checked = true;
+        }
+    }
+
+    const modal = document.getElementById('modal-pagamentos-mes');
+    modal.classList.add('active');
+}
+
+function fecharModalPagamentos() {
+    const modal = document.getElementById('modal-pagamentos-mes');
+    modal.classList.remove('active');
+}
+
+function salvarPagamentosMes(event) {
+    event.preventDefault();
+
+    const id = parseInt(document.getElementById('id-aluno-pagamentos').value);
+    const mesesPagos = [];
+
+    // Coletar todos os meses marcados como pagos
+    document.querySelectorAll('.checkbox-mes:checked').forEach(checkbox => {
+        mesesPagos.push(parseInt(checkbox.dataset.mes));
+    });
+
+    const aluno = alunos.find(a => a.id === id);
+    if (!aluno) return;
+
+    // Se tem meses pagos, pega o último mês pago
+    const novoMesPagamento = mesesPagos.length > 0 ? Math.max(...mesesPagos) : null;
+    
+    const alunoAtualizado = {
+        ...aluno,
+        mesPagamento: novoMesPagamento,
+        pagamento: mesesPagos.length > 0 ? 'Pago' : 'Não pago'
+    };
+
+    // Atualizar no servidor
+    editarAlunoNoServidor(id, alunoAtualizado).then(sucesso => {
+        if (sucesso) {
+            alert('Pagamento atualizado com sucesso!');
+            fecharModalPagamentos();
+            carregarAlunos();
+        } else {
+            alert('Erro ao atualizar pagamento.');
+        }
+    });
 }
 
 // ===== RELATÓRIO =====
