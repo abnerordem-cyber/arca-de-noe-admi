@@ -1,0 +1,61 @@
+[
+  {
+    "id": 1,
+    "nomeAluno": "João Silva",
+    "nomeResponsavel": "Maria Silva",
+    "telefone": "(85) 98765-4321",
+    "email": "maria.silva@gmail.com",
+    "turma": "Maternal I",
+    "professora": "Professora Maria",
+    "pagamento": "Pago"
+  },
+  {
+    "id": 2,
+    "nomeAluno": "Ana Santos",
+    "nomeResponsavel": "Pedro Santos",
+    "telefone": "(85) 99876-5432",
+    "email": "pedro.santos@gmail.com",
+    "turma": "Maternal II",
+    "professora": "Professora Ana",
+    "pagamento": "Não pago"
+  },
+  {
+    "id": 3,
+    "nomeAluno": "Lucas Costa",
+    "nomeResponsavel": "Fernanda Costa",
+    "telefone": "(85) 98765-5432",
+    "email": "fernanda.costa@gmail.com",
+    "turma": "Pré I",
+    "professora": "Professora Joana",
+    "pagamento": "Pago"
+  },
+  {
+    "id": 1768789792805,
+    "nomeAluno": "aaaaa",
+    "nomeResponsavel": "aaaaa",
+    "telefone": "373737373737",
+    "email": "abnermoliver@gmail.com",
+    "turma": "Pré I",
+    "professora": "Professora Ana",
+    "pagamento": "Pago"
+  },
+  {
+    "id": 1768790884558,
+    "nomeAluno": "w",
+    "nomeResponsavel": "k",
+    "telefone": "44",
+    "email": "midiaquadrangular3@gmail.com",
+    "turma": "Berçário",
+    "professora": "Professora Ana",
+    "pagamento": "Pago"
+  },
+  {
+    "id": 1768794532340,
+    "nomeAluno": "Abner de Moura ",
+    "nomeResponsavel": "Valeu ",
+    "telefone": "2131",
+    "email": "abnermoliver@gmail.com",
+    "turma": "Pré I",
+    "pagamento": "Não pago"
+  }
+]

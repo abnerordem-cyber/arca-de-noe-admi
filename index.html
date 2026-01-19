@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arca de Noé - Administração Escolar</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <!-- Splash/Vinheta -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-content">
+            <img src="assets/logo.png" alt="Logo Arca de Noé" class="splash-logo">
+            <h1 class="splash-title">Arca de Noé</h1>
+            <p class="splash-subtitle">Administração Escolar</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Menu Hamburger -->
+        <button class="menu-toggle" onclick="toggleMenu()">≡</button>
+
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="assets/logo.png" alt="Logo Arca de Noé" class="logo-img">
+                <h1>Arca de Noé</h1>
+                <p>Administração Escolar</p>
+            </div>
+            <ul class="menu">
+                <li><a href="#" onclick="showPage('dashboard')" class="menu-item active">Dashboard</a></li>
+                <li><a href="#" onclick="showPage('cadastro')" class="menu-item">Cadastrar Aluno</a></li>
+                <li><a href="#" onclick="showPage('alunos')" class="menu-item">Listar Alunos</a></li>
+                <li><a href="#" onclick="showPage('relatorio')" class="menu-item">Relatório</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h2 id="page-title">Dashboard</h2>
+                <div class="header-info">
+                    <span id="user-info">Administrador</span>
+                </div>
+            </header>
+
+            <!-- Dashboard Page -->
+            <section id="dashboard" class="page active">
+                <div class="dashboard-grid">
+                    <div class="card stats-card">
+                        <h3>Total de Alunos</h3>
+                        <p class="stat-number" id="total-alunos">0</p>
+                    </div>
+                    <div class="card stats-card">
+                        <h3>Alunos que Pagaram</h3>
+                        <p class="stat-number pagos" id="alunos-pagos">0</p>
+                    </div>
+                    <div class="card stats-card">
+                        <h3>Alunos que Não Pagaram</h3>
+                        <p class="stat-number nao-pagos" id="alunos-nao-pagos">0</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-section">
+                    <h3>Acesso Rápido por Turma</h3>
+                    <div class="turmas-grid" id="turmas-rapido">
+                        <!-- Preenchido dinamicamente -->
+                    </div>
+                </div>
+
+                <div class="graficos-container">
+                    <div class="grafico-card">
+                        <h3>Alunos por Turma</h3>
+                        <canvas id="graficoTurmas"></canvas>
+                    </div>
+                    <div class="grafico-card">
+                        <h3>Status de Pagamento</h3>
+                        <canvas id="graficoPagamento"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cadastro Page -->
+            <section id="cadastro" class="page">
+                <div class="form-container">
+                    <h3>Cadastrar Novo Aluno</h3>
+                    <form id="form-aluno" onsubmit="adicionarAluno(event)">
+                        <div class="form-group">
+                            <label for="nome-aluno">Nome do Aluno:</label>
+                            <input type="text" id="nome-aluno" required placeholder="Digite o nome do aluno">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nome-responsavel">Nome do Responsável:</label>
+                            <input type="text" id="nome-responsavel" required placeholder="Digite o nome do responsável">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telefone">Telefone:</label>
+                            <input type="tel" id="telefone" required placeholder="(00) 00000-0000">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">E-mail:</label>
+                            <input type="email" id="email" required placeholder="seu.email@gmail.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="turma">Turma:</label>
+                            <select id="turma" required>
+                                <option value="">Selecione uma turma</option>
+                                <option value="Berçário">Berçário</option>
+                                <option value="Maternal I">Maternal I</option>
+                                <option value="Maternal II">Maternal II</option>
+                                <option value="Pré I">Pré I</option>
+                                <option value="Pré II">Pré II</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pagamento">Status de Pagamento:</label>
+                            <select id="pagamento" required>
+                                <option value="">Selecione o status</option>
+                                <option value="Pago">Pago</option>
+                                <option value="Não pago">Não pago</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Salvar Aluno</button>
+                        <button type="reset" class="btn btn-secondary">Limpar Formulário</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Listar Alunos Page -->
+            <section id="alunos" class="page">
+                <div class="filtros-container">
+                    <h3>Filtros</h3>
+                    <div class="filtros">
+                        <div class="filtro-group">
+                            <label for="filtro-pagamento">Pagamento:</label>
+                            <select id="filtro-pagamento" onchange="aplicarFiltros()">
+                                <option value="">Todos</option>
+                                <option value="Pago">Pagos</option>
+                                <option value="Não pago">Não pagos</option>
+                            </select>
+                        </div>
+
+                        <div class="filtro-group">
+                            <label for="filtro-turma">Turma:</label>
+                            <select id="filtro-turma" onchange="aplicarFiltros()">
+                                <option value="">Todas as turmas</option>
+                                <option value="Berçário">Berçário</option>
+                                <option value="Maternal I">Maternal I</option>
+                                <option value="Maternal II">Maternal II</option>
+                                <option value="Pré I">Pré I</option>
+                                <option value="Pré II">Pré II</option>
+                            </select>
+                        </div>
+
+                        <div class="filtro-group">
+                            <label for="busca-nome">Buscar por nome:</label>
+                            <input type="text" id="busca-nome" placeholder="Digite o nome do aluno" onkeyup="aplicarFiltros()">
+                        </div>
+
+                        <button class="btn btn-secondary" onclick="limparFiltros()">Limpar Filtros</button>
+                    </div>
+                </div>
+
+                <div class="tabela-container">
+                    <table id="tabela-alunos" class="tabela">
+                        <thead>
+                            <tr>
+                                <th>Nome do Aluno</th>
+                                <th>Responsável</th>
+                                <th>Telefone</th>
+                                <th>E-mail</th>
+                                <th>Turma</th>
+                                <th>Pagamento</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-body">
+                            <!-- Preenchido dinamicamente -->
+                        </tbody>
+                    </table>
+                    <div id="tabela-cards" class="tabela-cards">
+                        <!-- Preenchido dinamicamente para mobile -->
+                    </div>
+                    <p id="mensagem-vazia" style="text-align: center; color: #666; padding: 20px;">Nenhum aluno encontrado. Comece a adicionar alunos!</p>
+                </div>
+            </section>
+
+            <!-- Relatório Page -->
+            <section id="relatorio" class="page">
+                <div class="relatorio-container">
+                    <h3>Relatório Geral</h3>
+                    <div class="relatorio-grid">
+                        <div class="relatorio-card">
+                            <h4>Resumo de Turmas</h4>
+                            <div id="resumo-turmas">
+                                <!-- Preenchido dinamicamente -->
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="exportarDados()">Exportar como TXT</button>
+                    <button class="btn btn-secondary" onclick="limparTodosDados()">Limpar Dados (Cuidado!)</button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Modal para Editar -->
+    <div id="modal-editar" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="fecharModal()">&times;</span>
+            <h3>Editar Aluno</h3>
+            <form id="form-editar" onsubmit="salvarEdicao(event)">
+                <input type="hidden" id="editar-id">
+                
+                <div class="form-group">
+                    <label for="editar-nome-aluno">Nome do Aluno:</label>
+                    <input type="text" id="editar-nome-aluno" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editar-nome-responsavel">Nome do Responsável:</label>
+                    <input type="text" id="editar-nome-responsavel" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editar-telefone">Telefone:</label>
+                    <input type="tel" id="editar-telefone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editar-email">E-mail:</label>
+                    <input type="email" id="editar-email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editar-turma">Turma:</label>
+                    <select id="editar-turma" required>
+                        <option value="Berçário">Berçário</option>
+                        <option value="Maternal I">Maternal I</option>
+                        <option value="Maternal II">Maternal II</option>
+                        <option value="Pré I">Pré I</option>
+                        <option value="Pré II">Pré II</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="editar-pagamento">Status de Pagamento:</label>
+                    <select id="editar-pagamento" required>
+                        <option value="Pago">Pago</option>
+                        <option value="Não pago">Não pago</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                <button type="button" class="btn btn-secondary" onclick="fecharModal()">Cancelar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

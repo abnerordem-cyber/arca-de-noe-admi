@@ -1,0 +1,37 @@
+INSTRUÇÕES RÁPIDAS PARA USAR NGROK:
+
+1. ENCONTRE O NGROK:
+   - Procure por ngrok.exe no seu computador (use busca do Windows)
+   - Anote o caminho completo (ex: C:\Users\ADM\Downloads\ngrok.exe)
+
+2. ABRA UMA NOVA JANELA DO POWERSHELL
+
+3. CONFIGURE O AUTHTOKEN:
+   - Acesse https://dashboard.ngrok.com/auth
+   - Copie seu Authtoken
+   - No PowerShell, cole este comando (substitua SEU_TOKEN):
+   
+   "CAMINHO_DO_NGROK\ngrok.exe" config add-authtoken SEU_TOKEN
+   
+   Exemplo:
+   "C:\Users\ADM\Downloads\ngrok.exe" config add-authtoken ngrok_2BhD9H8sN2kL9mP3xQ4
+
+4. INICIE O NGROK:
+   "CAMINHO_DO_NGROK\ngrok.exe" http 3000
+   
+   Exemplo:
+   "C:\Users\ADM\Downloads\ngrok.exe" http 3000
+
+5. PROCURE PELA URL:
+   Procure na saída algo como:
+   
+   Forwarding    https://abc123def456.ngrok.io -> http://localhost:3000
+
+6. COMPARTILHE:
+   Copie a URL e compartilhe com qualquer pessoa!
+
+
+DÚVIDAS?
+========
+- Qual é o caminho completo do ngrok.exe no seu computador?
+- De qual pasta você extraiu o arquivo?
