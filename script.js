@@ -834,16 +834,22 @@ function salvarPagamentosMes(event) {
     });
 
     const aluno = alunos.find(a => a.id === id);
-    if (!aluno) return;
+    if (!aluno) {
+        alert('Aluno não encontrado!');
+        return;
+    }
 
     // Se tem meses pagos, pega o último mês pago
     const novoMesPagamento = mesesPagos.length > 0 ? Math.max(...mesesPagos) : null;
+    const novoPagamento = mesesPagos.length > 0 ? 'Pago' : 'Não pago';
     
+    // Atualizar apenas os campos necessários
     const alunoAtualizado = {
-        ...aluno,
         mesPagamento: novoMesPagamento,
-        pagamento: mesesPagos.length > 0 ? 'Pago' : 'Não pago'
+        pagamento: novoPagamento
     };
+
+    console.log('Atualizando aluno:', id, alunoAtualizado);
 
     // Atualizar no servidor
     editarAlunoNoServidor(id, alunoAtualizado).then(sucesso => {
@@ -852,7 +858,7 @@ function salvarPagamentosMes(event) {
             fecharModalPagamentos();
             carregarAlunos();
         } else {
-            alert('Erro ao atualizar pagamento.');
+            alert('Erro ao atualizar pagamento. Tente novamente.');
         }
     });
 }

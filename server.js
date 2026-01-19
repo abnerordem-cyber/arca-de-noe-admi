@@ -119,14 +119,16 @@ app.put('/api/alunos/:id', (req, res) => {
         return res.status(404).json({ erro: 'Aluno não encontrado' });
     }
 
+    // Fazer merge: manter dados antigos e atualizar apenas o que foi enviado
     alunos[indice] = {
-        id,
-        nomeAluno: req.body.nomeAluno,
-        nomeResponsavel: req.body.nomeResponsavel,
-        telefone: req.body.telefone,
-        email: req.body.email,
-        turma: req.body.turma,
-        pagamento: req.body.pagamento
+        ...alunos[indice],
+        ...(req.body.nomeAluno && { nomeAluno: req.body.nomeAluno }),
+        ...(req.body.nomeMae && { nomeMae: req.body.nomeMae }),
+        ...(req.body.telefone && { telefone: req.body.telefone }),
+        ...(req.body.email && { email: req.body.email }),
+        ...(req.body.turma && { turma: req.body.turma }),
+        ...(req.body.pagamento !== undefined && { pagamento: req.body.pagamento }),
+        ...(req.body.mesPagamento !== undefined && { mesPagamento: req.body.mesPagamento })
     };
 
     if (salvarAlunos(alunos)) {
