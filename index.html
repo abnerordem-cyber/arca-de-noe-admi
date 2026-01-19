@@ -79,6 +79,22 @@
                         <h3>Status de Pagamento</h3>
                         <canvas id="graficoPagamento"></canvas>
                     </div>
+                    <div class="grafico-card">
+                        <h3>Alunos por Ano</h3>
+                        <canvas id="graficoAnos"></canvas>
+                    </div>
+                    <div class="grafico-card">
+                        <h3>Alunos por Estado Civil</h3>
+                        <canvas id="graficoEstadoCivil"></canvas>
+                    </div>
+                    <div class="grafico-card">
+                        <h3>Alunos por Período</h3>
+                        <canvas id="graficoPeriodo"></canvas>
+                    </div>
+                    <div class="grafico-card">
+                        <h3>Pagamento por Mês</h3>
+                        <canvas id="graficoPagamentoMes"></canvas>
+                    </div>
                 </div>
             </section>
 
@@ -214,7 +230,14 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="turma">Turma:</label>
-                                <input type="text" id="turma" required placeholder="Ex: Maternal I">
+                                <select id="turma" required>
+                                    <option value="">Selecione uma turma</option>
+                                    <option value="Berçário">Berçário</option>
+                                    <option value="Maternal I">Maternal I</option>
+                                    <option value="Maternal II">Maternal II</option>
+                                    <option value="Pré I">Pré I</option>
+                                    <option value="Pré II">Pré II</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="professor">Professor:</label>
@@ -235,45 +258,20 @@
 
                         <!-- PAGAMENTO -->
                         <h4>Pagamento</h4>
-                        <div class="form-group">
-                            <label for="pagamento">Status de Pagamento:</label>
-                            <select id="pagamento" required>
-                                <option value="">Selecione...</option>
-                                <option value="Pago">Pago</option>
-                                <option value="Não pago">Não pago</option>
-                                <option value="Parcialmente pago">Parcialmente pago</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="telefone">Telefone:</label>
-                            <input type="tel" id="telefone" required placeholder="(00) 00000-0000">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email">E-mail:</label>
-                            <input type="email" id="email" required placeholder="seu.email@gmail.com">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="turma">Turma:</label>
-                            <select id="turma" required>
-                                <option value="">Selecione uma turma</option>
-                                <option value="Berçário">Berçário</option>
-                                <option value="Maternal I">Maternal I</option>
-                                <option value="Maternal II">Maternal II</option>
-                                <option value="Pré I">Pré I</option>
-                                <option value="Pré II">Pré II</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="pagamento">Status de Pagamento:</label>
-                            <select id="pagamento" required>
-                                <option value="">Selecione o status</option>
-                                <option value="Pago">Pago</option>
-                                <option value="Não pago">Não pago</option>
-                            </select>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="mes-pagamento">Mês do Pagamento:</label>
+                                <input type="month" id="mes-pagamento">
+                            </div>
+                            <div class="form-group">
+                                <label for="pagamento">Status de Pagamento:</label>
+                                <select id="pagamento" required>
+                                    <option value="">Selecione...</option>
+                                    <option value="Pago">Pago</option>
+                                    <option value="Não pago">Não pago</option>
+                                    <option value="Parcialmente pago">Parcialmente pago</option>
+                                </select>
+                            </div>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Salvar Aluno</button>
@@ -309,11 +307,51 @@
                         </div>
 
                         <div class="filtro-group">
+                            <label for="filtro-ano">Filtrar por Ano:</label>
+                            <select id="filtro-ano" onchange="aplicarFiltros()">
+                                <option value="">Todos os anos</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                                <option value="2027">2027</option>
+                            </select>
+                        </div>
+
+                        <div class="filtro-group">
+                            <label for="filtro-mes">Filtrar por Mês:</label>
+                            <input type="month" id="filtro-mes" onchange="aplicarFiltros()">
+                        </div>
+
+                        <div class="filtro-group">
+                            <label for="filtro-pagamento">Filtrar por Pagamento:</label>
+                            <select id="filtro-pagamento" onchange="aplicarFiltros()">
+                                <option value="">Todos</option>
+                                <option value="Pago">Pago</option>
+                                <option value="Não pago">Não pago</option>
+                                <option value="Parcialmente pago">Parcialmente pago</option>
+                            </select>
+                        </div>
+
+                        <div class="filtro-group">
+                            <label for="filtro-turma">Filtrar por Turma:</label>
+                            <select id="filtro-turma" onchange="aplicarFiltros()">
+                                <option value="">Todas as turmas</option>
+                                <option value="Berçário">Berçário</option>
+                                <option value="Maternal I">Maternal I</option>
+                                <option value="Maternal II">Maternal II</option>
+                                <option value="Pré I">Pré I</option>
+                                <option value="Pré II">Pré II</option>
+                            </select>
+                        </div>
+
+                        <div class="filtro-group">
                             <label for="busca-nome">Buscar por nome:</label>
                             <input type="text" id="busca-nome" placeholder="Digite o nome do aluno" onkeyup="aplicarFiltros()">
                         </div>
 
                         <button class="btn btn-secondary" onclick="limparFiltros()">Limpar Filtros</button>
+                        <button class="btn btn-success" onclick="exportarParaExcel()">📊 Exportar para Excel</button>
+                        <button class="btn btn-success" onclick="exportarParaCSV()">📑 Exportar para CSV</button>
                     </div>
                 </div>
 

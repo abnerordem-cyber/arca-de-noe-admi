@@ -173,6 +173,7 @@ async function adicionarAluno(event) {
     const professor = document.getElementById('professor').value;
     const profissao = document.getElementById('profissao').value;
     const estadoCivil = document.getElementById('estado-civil').value;
+    const mesPagamento = document.getElementById('mes-pagamento').value;
     const pagamento = document.getElementById('pagamento').value;
 
     if (!nomeAluno || !nomeResponsavel || !turma || !pagamento) {
@@ -206,6 +207,7 @@ async function adicionarAluno(event) {
         professor,
         profissao,
         estadoCivil,
+        mesPagamento,
         pagamento
     };
 
@@ -308,6 +310,8 @@ function alternarPagamento(id) {
 function aplicarFiltros() {
     const filtroPagamento = document.getElementById('filtro-pagamento').value;
     const filtroTurma = document.getElementById('filtro-turma').value;
+    const filtroAno = document.getElementById('filtro-ano').value;
+    const filtroMes = document.getElementById('filtro-mes').value;
     const buscaNome = document.getElementById('busca-nome').value.toLowerCase();
 
     const alunosFiltrados = alunos.filter(aluno => {
@@ -318,6 +322,14 @@ function aplicarFiltros() {
         }
 
         if (filtroTurma && aluno.turma !== filtroTurma) {
+            corresponde = false;
+        }
+
+        if (filtroAno && aluno.ano && aluno.ano.toString() !== filtroAno) {
+            corresponde = false;
+        }
+
+        if (filtroMes && aluno.mesPagamento !== filtroMes) {
             corresponde = false;
         }
 
@@ -334,6 +346,8 @@ function aplicarFiltros() {
 function limparFiltros() {
     document.getElementById('filtro-pagamento').value = '';
     document.getElementById('filtro-turma').value = '';
+    document.getElementById('filtro-ano').value = '';
+    document.getElementById('filtro-mes').value = '';
     document.getElementById('busca-nome').value = '';
     aplicarFiltros();
 }
@@ -446,6 +460,10 @@ function atualizarDashboard() {
 function gerarGraficos() {
     gerarGraficoTurmas();
     gerarGraficoPagamento();
+    gerarGraficoAnos();
+    gerarGraficoEstadoCivil();
+    gerarGraficoPeriodo();
+    gerarGraficoPagamentoMes();
 }
 
 function gerarGraficoTurmas() {
@@ -542,6 +560,173 @@ function gerarGraficoPagamento() {
     });
 }
 
+function gerarGraficoAnos() {
+    const anos = [...new Set(alunos.map(a => a.ano))].filter(a => a).sort();
+    const dadosAnos = anos.map(ano => alunos.filter(a => a.ano === ano).length);
+    
+    const ctx = document.getElementById('graficoAnos');
+    if (!ctx) return;
+    
+    if (window.graficoAnosInstance) {
+        window.graficoAnosInstance.destroy();
+    }
+    
+    window.graficoAnosInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: anos.map(a => a.toString()),
+            datasets: [{
+                label: 'Quantidade de Alunos',
+                data: dadosAnos,
+                backgroundColor: '#004E89',
+                borderColor: '#ffffff',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+function gerarGraficoEstadoCivil() {
+    const estadosCivis = [...new Set(alunos.map(a => a.estadoCivil))].filter(a => a);
+    const dadosEstados = estadosCivis.map(estado => alunos.filter(a => a.estadoCivil === estado).length);
+    
+    const ctx = document.getElementById('graficoEstadoCivil');
+    if (!ctx) return;
+    
+    if (window.graficoEstadoCivilInstance) {
+        window.graficoEstadoCivilInstance.destroy();
+    }
+    
+    window.graficoEstadoCivilInstance = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: estadosCivis,
+            datasets: [{
+                data: dadosEstados,
+                backgroundColor: [
+                    '#FF6B35',
+                    '#004E89',
+                    '#FF9D6F',
+                    '#00365D'
+                ],
+                borderColor: '#ffffff',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+}
+
+function gerarGraficoPeriodo() {
+    const periodos = [...new Set(alunos.map(a => a.periodo))].filter(a => a);
+    const dadosPeriodos = periodos.map(periodo => alunos.filter(a => a.periodo === periodo).length);
+    
+    const ctx = document.getElementById('graficoPeriodo');
+    if (!ctx) return;
+    
+    if (window.graficoPeriodoInstance) {
+        window.graficoPeriodoInstance.destroy();
+    }
+    
+    window.graficoPeriodoInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: periodos,
+            datasets: [{
+                label: 'Quantidade de Alunos',
+                data: dadosPeriodos,
+                backgroundColor: '#FF9D6F',
+                borderColor: '#ffffff',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+function gerarGraficoPagamentoMes() {
+    const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+    const mesesNum = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    
+    const dadosPagosPorMes = mesesNum.map(mes => alunos.filter(a => a.mesPagamento == mes && a.pagamento === 'Pago').length);
+    const dadosNaoPagosPorMes = mesesNum.map(mes => alunos.filter(a => a.mesPagamento == mes && a.pagamento !== 'Pago').length);
+    
+    const ctx = document.getElementById('graficoPagamentoMes');
+    if (!ctx) return;
+    
+    if (window.graficoPagamentoMesInstance) {
+        window.graficoPagamentoMesInstance.destroy();
+    }
+    
+    window.graficoPagamentoMesInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: meses,
+            datasets: [
+                {
+                    label: 'Pagos',
+                    data: dadosPagosPorMes,
+                    backgroundColor: '#004E89',
+                    borderColor: '#ffffff',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Não Pagos',
+                    data: dadosNaoPagosPorMes,
+                    backgroundColor: '#FF6B35',
+                    borderColor: '#ffffff',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                x: {
+                    stacked: false
+                },
+                y: {
+                    beginAtZero: true,
+                    stacked: false
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            }
+        }
+    });
+}
+
 function filtrarPorTurma(turma) {
     showPage('alunos');
     document.getElementById('filtro-turma').value = turma;
@@ -618,6 +803,69 @@ function exportarDados() {
     document.body.removeChild(elemento);
 
     alert('Relatório exportado com sucesso!');
+}
+
+// ===== EXPORTAR PARA EXCEL =====
+function exportarParaExcel() {
+    if (alunos.length === 0) {
+        alert('Nenhum aluno para exportar!');
+        return;
+    }
+
+    let html = '<table border="1"><tr><th>Nome</th><th>Responsável</th><th>Telefone</th><th>Celular</th><th>Email</th><th>Turma</th><th>Ano</th><th>Período</th><th>Pagamento</th><th>Mês Pagamento</th><th>Professor</th><th>CPF</th><th>RG</th></tr>';
+    
+    alunos.forEach(aluno => {
+        html += `<tr>
+            <td>${aluno.nomeAluno}</td>
+            <td>${aluno.nomeResponsavel}</td>
+            <td>${aluno.telefone}</td>
+            <td>${aluno.celular || ''}</td>
+            <td>${aluno.email}</td>
+            <td>${aluno.turma}</td>
+            <td>${aluno.ano || ''}</td>
+            <td>${aluno.periodo || ''}</td>
+            <td>${aluno.pagamento}</td>
+            <td>${aluno.mesPagamento || ''}</td>
+            <td>${aluno.professor || ''}</td>
+            <td>${aluno.cpf || ''}</td>
+            <td>${aluno.rg || ''}</td>
+        </tr>`;
+    });
+    html += '</table>';
+
+    const elemento = document.createElement('a');
+    const blob = new Blob([html], { type: 'application/vnd.ms-excel;charset=utf-8' });
+    elemento.href = URL.createObjectURL(blob);
+    elemento.download = `alunos_arca_noe_${new Date().toISOString().slice(0, 10)}.xls`;
+    document.body.appendChild(elemento);
+    elemento.click();
+    document.body.removeChild(elemento);
+
+    alert('Dados exportados para Excel com sucesso!');
+}
+
+// ===== EXPORTAR PARA CSV =====
+function exportarParaCSV() {
+    if (alunos.length === 0) {
+        alert('Nenhum aluno para exportar!');
+        return;
+    }
+
+    let csv = 'Nome,Responsável,Telefone,Celular,Email,Turma,Ano,Período,Turno,Data Nascimento,Idade,Naturalidade,Nacionalidade,Endereço,Bairro,Cidade,CEP,Nome Pai,Nome Mãe,Pagamento,Mês Pagamento,Professor,CPF,RG,Profissão,Estado Civil\n';
+    
+    alunos.forEach(aluno => {
+        csv += `"${aluno.nomeAluno}","${aluno.nomeResponsavel}","${aluno.telefone}","${aluno.celular || ''}","${aluno.email}","${aluno.turma}","${aluno.ano || ''}","${aluno.periodo || ''}","${aluno.turno || ''}","${aluno.dataNasc || ''}","${aluno.idade || ''}","${aluno.naturalidade || ''}","${aluno.nacionalidade || ''}","${aluno.endereco || ''}","${aluno.bairro || ''}","${aluno.cidade || ''}","${aluno.cep || ''}","${aluno.nomePai || ''}","${aluno.nomeMae || ''}","${aluno.pagamento}","${aluno.mesPagamento || ''}","${aluno.professor || ''}","${aluno.cpf || ''}","${aluno.rg || ''}","${aluno.profissao || ''}","${aluno.estadoCivil || ''}"\n`;
+    });
+
+    const elemento = document.createElement('a');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    elemento.href = URL.createObjectURL(blob);
+    elemento.download = `alunos_arca_noe_${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(elemento);
+    elemento.click();
+    document.body.removeChild(elemento);
+
+    alert('Dados exportados para CSV com sucesso!');
 }
 
 // ===== LIMPAR TODOS OS DADOS =====
