@@ -148,24 +148,64 @@ function fecharMenu() {
 async function adicionarAluno(event) {
     event.preventDefault();
 
+    const ano = document.getElementById('ano').value;
+    const periodo = document.getElementById('periodo').value;
+    const turno = document.getElementById('turno').value;
     const nomeAluno = document.getElementById('nome-aluno').value;
-    const nomeResponsavel = document.getElementById('nome-responsavel').value;
+    const dataNasc = document.getElementById('data-nasc').value;
+    const idade = document.getElementById('idade').value;
+    const naturalidade = document.getElementById('naturalidade').value;
+    const nacionalidade = document.getElementById('nacionalidade').value;
+    const endereco = document.getElementById('endereco').value;
+    const complemento = document.getElementById('complemento').value;
+    const bairro = document.getElementById('bairro').value;
+    const cidade = document.getElementById('cidade').value;
+    const cep = document.getElementById('cep').value;
     const telefone = document.getElementById('telefone').value;
+    const celular = document.getElementById('celular').value;
     const email = document.getElementById('email').value;
+    const nomeResponsavel = document.getElementById('nome-responsavel').value;
+    const nomePai = document.getElementById('nome-pai').value;
+    const nomeMae = document.getElementById('nome-mae').value;
+    const cpf = document.getElementById('cpf').value;
+    const rg = document.getElementById('rg').value;
     const turma = document.getElementById('turma').value;
+    const professor = document.getElementById('professor').value;
+    const profissao = document.getElementById('profissao').value;
+    const estadoCivil = document.getElementById('estado-civil').value;
     const pagamento = document.getElementById('pagamento').value;
 
-    if (!nomeAluno || !nomeResponsavel || !telefone || !email || !turma || !pagamento) {
-        alert('Por favor, preencha todos os campos!');
+    if (!nomeAluno || !nomeResponsavel || !turma || !pagamento) {
+        alert('Por favor, preencha os campos obrigatórios (Nome, Responsável, Turma e Pagamento)!');
         return;
     }
 
     const novoAluno = {
+        ano,
+        periodo,
+        turno,
         nomeAluno,
-        nomeResponsavel,
+        dataNasc,
+        idade,
+        naturalidade,
+        nacionalidade,
+        endereco,
+        complemento,
+        bairro,
+        cidade,
+        cep,
         telefone,
+        celular,
         email,
+        nomeResponsavel,
+        nomePai,
+        nomeMae,
+        cpf,
+        rg,
         turma,
+        professor,
+        profissao,
+        estadoCivil,
         pagamento
     };
 

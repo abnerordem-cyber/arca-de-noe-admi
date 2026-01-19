@@ -87,14 +87,162 @@
                 <div class="form-container">
                     <h3>Cadastrar Novo Aluno</h3>
                     <form id="form-aluno" onsubmit="adicionarAluno(event)">
+                        <!-- INFORMAÇÕES BÁSICAS -->
+                        <h4>Informações do Aluno</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ano">Ano:</label>
+                                <input type="number" id="ano" placeholder="2026">
+                            </div>
+                            <div class="form-group">
+                                <label for="periodo">Período:</label>
+                                <input type="text" id="periodo" placeholder="Manhã/Tarde">
+                            </div>
+                            <div class="form-group">
+                                <label for="turno">Turno:</label>
+                                <input type="text" id="turno" placeholder="Turno">
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label for="nome-aluno">Nome do Aluno:</label>
                             <input type="text" id="nome-aluno" required placeholder="Digite o nome do aluno">
                         </div>
 
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="data-nasc">Data de Nascimento:</label>
+                                <input type="date" id="data-nasc">
+                            </div>
+                            <div class="form-group">
+                                <label for="idade">Idade:</label>
+                                <input type="number" id="idade" placeholder="Idade">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="naturalidade">Naturalidade:</label>
+                                <input type="text" id="naturalidade" placeholder="Cidade de nascimento">
+                            </div>
+                            <div class="form-group">
+                                <label for="nacionalidade">Nacionalidade:</label>
+                                <input type="text" id="nacionalidade" placeholder="Nacionalidade">
+                            </div>
+                        </div>
+
+                        <!-- ENDEREÇO -->
+                        <h4>Endereço</h4>
+                        <div class="form-group">
+                            <label for="endereco">Endereço:</label>
+                            <input type="text" id="endereco" placeholder="Rua, número">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="complemento">Complemento:</label>
+                                <input type="text" id="complemento" placeholder="Apto, bloco, etc">
+                            </div>
+                            <div class="form-group">
+                                <label for="bairro">Bairro:</label>
+                                <input type="text" id="bairro" placeholder="Bairro">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="cidade">Cidade:</label>
+                                <input type="text" id="cidade" placeholder="Cidade">
+                            </div>
+                            <div class="form-group">
+                                <label for="cep">CEP:</label>
+                                <input type="text" id="cep" placeholder="00000-000">
+                            </div>
+                        </div>
+
+                        <!-- CONTATO -->
+                        <h4>Contato</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="telefone">Telefone:</label>
+                                <input type="tel" id="telefone" placeholder="(85) 98765-4321">
+                            </div>
+                            <div class="form-group">
+                                <label for="celular">Celular:</label>
+                                <input type="tel" id="celular" placeholder="(85) 99999-9999">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">E-Mail:</label>
+                            <input type="email" id="email" placeholder="email@example.com">
+                        </div>
+
+                        <!-- RESPONSÁVEIS -->
+                        <h4>Responsáveis</h4>
                         <div class="form-group">
                             <label for="nome-responsavel">Nome do Responsável:</label>
                             <input type="text" id="nome-responsavel" required placeholder="Digite o nome do responsável">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nome-pai">Nome do Pai:</label>
+                                <input type="text" id="nome-pai" placeholder="Nome do pai">
+                            </div>
+                            <div class="form-group">
+                                <label for="nome-mae">Nome da Mãe:</label>
+                                <input type="text" id="nome-mae" placeholder="Nome da mãe">
+                            </div>
+                        </div>
+
+                        <!-- DOCUMENTAÇÃO -->
+                        <h4>Documentação</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="cpf">CPF Associado:</label>
+                                <input type="text" id="cpf" placeholder="000.000.000-00">
+                            </div>
+                            <div class="form-group">
+                                <label for="rg">RG:</label>
+                                <input type="text" id="rg" placeholder="RG">
+                            </div>
+                        </div>
+
+                        <!-- INFORMAÇÕES ESCOLARES -->
+                        <h4>Informações Escolares</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="turma">Turma:</label>
+                                <input type="text" id="turma" required placeholder="Ex: Maternal I">
+                            </div>
+                            <div class="form-group">
+                                <label for="professor">Professor:</label>
+                                <input type="text" id="professor" placeholder="Nome do professor">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="profissao">Profissão do Responsável:</label>
+                                <input type="text" id="profissao" placeholder="Profissão">
+                            </div>
+                            <div class="form-group">
+                                <label for="estado-civil">Estado Civil:</label>
+                                <input type="text" id="estado-civil" placeholder="Solteiro(a)/Casado(a)/Outro">
+                            </div>
+                        </div>
+
+                        <!-- PAGAMENTO -->
+                        <h4>Pagamento</h4>
+                        <div class="form-group">
+                            <label for="pagamento">Status de Pagamento:</label>
+                            <select id="pagamento" required>
+                                <option value="">Selecione...</option>
+                                <option value="Pago">Pago</option>
+                                <option value="Não pago">Não pago</option>
+                                <option value="Parcialmente pago">Parcialmente pago</option>
+                            </select>
                         </div>
 
                         <div class="form-group">
