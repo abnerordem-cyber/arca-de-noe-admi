@@ -72,12 +72,20 @@
 
                 <div class="graficos-container">
                     <div class="grafico-card">
-                        <h3>Alunos por Turma</h3>
-                        <canvas id="graficoTurmas"></canvas>
+                        <h3>Pagamento por Mês</h3>
+                        <canvas id="graficoPagamentoMes"></canvas>
                     </div>
                     <div class="grafico-card">
                         <h3>Status de Pagamento</h3>
                         <canvas id="graficoPagamento"></canvas>
+                    </div>
+                    <div class="grafico-card">
+                        <h3>Alunos por Turma</h3>
+                        <canvas id="graficoTurmas"></canvas>
+                    </div>
+                    <div class="grafico-card">
+                        <h3>Alunos por Período</h3>
+                        <canvas id="graficoPeriodo"></canvas>
                     </div>
                     <div class="grafico-card">
                         <h3>Alunos por Ano</h3>
@@ -86,14 +94,6 @@
                     <div class="grafico-card">
                         <h3>Alunos por Estado Civil</h3>
                         <canvas id="graficoEstadoCivil"></canvas>
-                    </div>
-                    <div class="grafico-card">
-                        <h3>Alunos por Período</h3>
-                        <canvas id="graficoPeriodo"></canvas>
-                    </div>
-                    <div class="grafico-card">
-                        <h3>Pagamento por Mês</h3>
-                        <canvas id="graficoPagamentoMes"></canvas>
                     </div>
                 </div>
             </section>
@@ -111,12 +111,24 @@
                                 <input type="number" id="ano" placeholder="2026">
                             </div>
                             <div class="form-group">
-                                <label for="periodo">Período:</label>
-                                <input type="text" id="periodo" placeholder="Manhã/Tarde">
+                                <label for="turma">Turma:</label>
+                                <select id="turma" required>
+                                    <option value="">Selecione uma turma</option>
+                                    <option value="Berçário">Berçário</option>
+                                    <option value="Maternal I">Maternal I</option>
+                                    <option value="Maternal II">Maternal II</option>
+                                    <option value="Pré I">Pré I</option>
+                                    <option value="Pré II">Pré II</option>
+                                </select>
                             </div>
                             <div class="form-group">
-                                <label for="turno">Turno:</label>
-                                <input type="text" id="turno" placeholder="Turno">
+                                <label for="periodo">Período:</label>
+                                <select id="periodo">
+                                    <option value="">Selecione...</option>
+                                    <option value="Manhã">Manhã</option>
+                                    <option value="Tarde">Tarde</option>
+                                    <option value="Integral">Integral</option>
+                                </select>
                             </div>
                         </div>
 
@@ -180,27 +192,17 @@
                         <h4>Contato</h4>
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="telefone">Telefone:</label>
+                                <label for="telefone">Telefone/Celular:</label>
                                 <input type="tel" id="telefone" placeholder="(85) 98765-4321">
                             </div>
                             <div class="form-group">
-                                <label for="celular">Celular:</label>
-                                <input type="tel" id="celular" placeholder="(85) 99999-9999">
+                                <label for="email">E-Mail:</label>
+                                <input type="email" id="email" placeholder="email@example.com">
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email">E-Mail:</label>
-                            <input type="email" id="email" placeholder="email@example.com">
                         </div>
 
                         <!-- RESPONSÁVEIS -->
                         <h4>Responsáveis</h4>
-                        <div class="form-group">
-                            <label for="nome-responsavel">Nome do Responsável:</label>
-                            <input type="text" id="nome-responsavel" required placeholder="Digite o nome do responsável">
-                        </div>
-
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="nome-pai">Nome do Pai:</label>
@@ -208,7 +210,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="nome-mae">Nome da Mãe:</label>
-                                <input type="text" id="nome-mae" placeholder="Nome da mãe">
+                                <input type="text" id="nome-mae" required placeholder="Nome da mãe">
                             </div>
                         </div>
 
@@ -227,33 +229,9 @@
 
                         <!-- INFORMAÇÕES ESCOLARES -->
                         <h4>Informações Escolares</h4>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="turma">Turma:</label>
-                                <select id="turma" required>
-                                    <option value="">Selecione uma turma</option>
-                                    <option value="Berçário">Berçário</option>
-                                    <option value="Maternal I">Maternal I</option>
-                                    <option value="Maternal II">Maternal II</option>
-                                    <option value="Pré I">Pré I</option>
-                                    <option value="Pré II">Pré II</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="professor">Professor:</label>
-                                <input type="text" id="professor" placeholder="Nome do professor">
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="profissao">Profissão do Responsável:</label>
-                                <input type="text" id="profissao" placeholder="Profissão">
-                            </div>
-                            <div class="form-group">
-                                <label for="estado-civil">Estado Civil:</label>
-                                <input type="text" id="estado-civil" placeholder="Solteiro(a)/Casado(a)/Outro">
-                            </div>
+                        <div class="form-group">
+                            <label for="professor">Professor:</label>
+                            <input type="text" id="professor" placeholder="Nome do professor">
                         </div>
 
                         <!-- PAGAMENTO -->
@@ -350,8 +328,6 @@
                         </div>
 
                         <button class="btn btn-secondary" onclick="limparFiltros()">Limpar Filtros</button>
-                        <button class="btn btn-success" onclick="exportarParaExcel()">📊 Exportar para Excel</button>
-                        <button class="btn btn-success" onclick="exportarParaCSV()">📑 Exportar para CSV</button>
                     </div>
                 </div>
 
@@ -383,6 +359,8 @@
             <section id="relatorio" class="page">
                 <div class="relatorio-container">
                     <h3>Relatório Geral</h3>
+
+                    <!-- Resumo de Turmas -->
                     <div class="relatorio-grid">
                         <div class="relatorio-card">
                             <h4>Resumo de Turmas</h4>
@@ -391,15 +369,28 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-primary" onclick="exportarDados()">Exportar como TXT</button>
-                    <button class="btn btn-secondary" onclick="limparTodosDados()">Limpar Dados (Cuidado!)</button>
+
+                    <!-- Dados para Boleto -->
+                    <div class="relatorio-grid">
+                        <div class="relatorio-card">
+                            <h4>Alunos Não Pagos (Para Boleto)</h4>
+                            <div id="dados-boleto" style="max-height: 400px; overflow-y: auto;">
+                                <!-- Preenchido dinamicamente -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exportação -->
+                    <div class="botoes-exportacao">
+                        <button class="btn btn-success" onclick="exportarParaExcel()">📊 Exportar para Excel</button>
+                        <button class="btn btn-success" onclick="exportarParaCSV()">📑 Exportar para CSV</button>
+                        <button class="btn btn-primary" onclick="exportarDados()">📄 Exportar como TXT</button>
+                        <button class="btn btn-secondary" onclick="limparTodosDados()">⚠️ Limpar Dados (Cuidado!)</button>
+                    </div>
                 </div>
             </section>
         </div>
     </div>
-
-    <!-- Modal para Editar -->
-    <div id="modal-editar" class="modal">
         <div class="modal-content">
             <span class="close" onclick="fecharModal()">&times;</span>
             <h3>Editar Aluno</h3>

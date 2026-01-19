@@ -751,6 +751,33 @@ function atualizarRelatorio() {
             </div>
         `;
     }).join('');
+
+    // Dados para boleto - Alunos não pagos
+    const alunosNaoPagos = alunos.filter(a => a.pagamento !== 'Pago');
+    const dadosBoleto = document.getElementById('dados-boleto');
+    
+    if (alunosNaoPagos.length === 0) {
+        dadosBoleto.innerHTML = '<p style="color: green; padding: 10px;">✓ Todos os alunos pagos!</p>';
+    } else {
+        dadosBoleto.innerHTML = `
+            <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+                <tr style="background: #f0f0f0;">
+                    <th style="border: 1px solid #ddd; padding: 5px;">Aluno</th>
+                    <th style="border: 1px solid #ddd; padding: 5px;">Responsável (Mãe)</th>
+                    <th style="border: 1px solid #ddd; padding: 5px;">Telefone</th>
+                    <th style="border: 1px solid #ddd; padding: 5px;">Status</th>
+                </tr>
+                ${alunosNaoPagos.map(a => `
+                    <tr>
+                        <td style="border: 1px solid #ddd; padding: 5px;">${a.nomeAluno}</td>
+                        <td style="border: 1px solid #ddd; padding: 5px;">${a.nomeMae}</td>
+                        <td style="border: 1px solid #ddd; padding: 5px;">${a.telefone}</td>
+                        <td style="border: 1px solid #ddd; padding: 5px; color: #FF6B35;"><strong>${a.pagamento}</strong></td>
+                    </tr>
+                `).join('')}
+            </table>
+        `;
+    }
 }
 
 // ===== EXPORTAR DADOS =====
