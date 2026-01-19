@@ -119,17 +119,19 @@ app.put('/api/alunos/:id', (req, res) => {
         return res.status(404).json({ erro: 'Aluno não encontrado' });
     }
 
-    // Fazer merge: manter dados antigos e atualizar apenas o que foi enviado
-    alunos[indice] = {
-        ...alunos[indice],
-        ...(req.body.nomeAluno && { nomeAluno: req.body.nomeAluno }),
-        ...(req.body.nomeMae && { nomeMae: req.body.nomeMae }),
-        ...(req.body.telefone && { telefone: req.body.telefone }),
-        ...(req.body.email && { email: req.body.email }),
-        ...(req.body.turma && { turma: req.body.turma }),
-        ...(req.body.pagamento !== undefined && { pagamento: req.body.pagamento }),
-        ...(req.body.mesPagamento !== undefined && { mesPagamento: req.body.mesPagamento })
-    };
+    // Manter dados antigos como base
+    const alunoAtualizado = { ...alunos[indice] };
+
+    // Atualizar apenas os campos enviados
+    if (req.body.nomeAluno) alunoAtualizado.nomeAluno = req.body.nomeAluno;
+    if (req.body.nomeMae) alunoAtualizado.nomeMae = req.body.nomeMae;
+    if (req.body.telefone) alunoAtualizado.telefone = req.body.telefone;
+    if (req.body.email) alunoAtualizado.email = req.body.email;
+    if (req.body.turma) alunoAtualizado.turma = req.body.turma;
+    if (req.body.pagamento !== undefined) alunoAtualizado.pagamento = req.body.pagamento;
+    if (req.body.mesPagamento !== undefined) alunoAtualizado.mesPagamento = req.body.mesPagamento;
+
+    alunos[indice] = alunoAtualizado;
 
     if (salvarAlunos(alunos)) {
         res.json({ mensagem: 'Aluno editado com sucesso', aluno: alunos[indice] });
